@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashbaord',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashbaord.component.scss']
 })
 export class DashbaordComponent {
-
+  constructor(public authService: AuthService) {
+  }
 }

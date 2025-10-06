@@ -9,7 +9,7 @@
 }
 
 .feedback-item {
-  background-color: #f9fafc;
+  background-color: var(--background-color);
   border-left: 4px solid #0d6efd;
   border-radius: 4px;
   padding: 8px 12px;

@@ -1,35 +1,91 @@
-.dashboard-container {
+/* ===== HERO SECTION ===== */
+.hero-section {
+  position: relative;
+  height: 60vh;
+  background: linear-gradient(120deg, #1e3a8a, #9333ea, #ec4899);
+  color: #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-section .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-section h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.hero-section p {
+  font-size: 1.1rem;
+  color: #f3f4f6;
+}
+
+/* ===== DASHBOARD CARDS ===== */
+.dashboard-section {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dash-card {
+  background-color: var(--surface-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   text-align: center;
-  padding: 2rem 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.title {
-  font-size: 1.75rem;
-  margin-bottom: 2rem;
+.dash-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-.links-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  max-width: 800px;
-  margin: 0 auto;
+.dash-card h5 {
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
 }
 
-.link-card {
-  display: block;
-  padding: 1rem;
-  background-color: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  text-decoration: none;
-  color: #1f2937;
-  font-weight: 500;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+.dash-card p {
+  color: var(--text-secondary-color);
+  font-size: 0.95rem;
 }
 
-.link-card:hover {
+.primary-btn {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.6rem;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background-color: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary-color);
 }
