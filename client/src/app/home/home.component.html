@@ -1,0 +1,51 @@
+<section class="home">
+    <!-- HERO -->
+    <div class="home-hero">
+      <div class="overlay"></div>
+      <div class="hero-content">
+        <h1 class="title">
+          Welcome to <span class="brand">Finovent</span>
+        </h1>
+        <p class="tagline">
+          A unified platform for financial institutions, professionals, and participants to manage and engage in events seamlessly.
+        </p>
+  
+        <!-- Not logged in -->
+        <div *ngIf="!authService.getLoginStatus()" class="login-box">
+          <p class="hint">Please login to continue.</p>
+          <button class="primary-btn" routerLink="/login">Login Now</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- ROLE CARDS -->
+    <div *ngIf="authService.getLoginStatus()" class="role-section">
+      <h2 class="section-title">Continue as</h2>
+  
+      <div class="role-grid">
+        <!-- Institution -->
+        <div *ngIf="authService.getRole() === 'institution'" class="role-card">
+          <div class="role-icon" aria-hidden="true">🏫</div>
+          <h3>Institution Dashboard</h3>
+          <p>Organize and manage financial seminars and events.</p>
+          <button class="primary-btn" routerLink="/dashboard">Go to Dashboard</button>
+        </div>
+  
+        <!-- Professional -->
+        <div *ngIf="authService.getRole() === 'professional'" class="role-card">
+          <div class="role-icon" aria-hidden="true">👩‍🏫</div>
+          <h3>Professional Tools</h3>
+          <p>View your assigned events and share resources.</p>
+          <button class="secondary-btn" routerLink="/add-resource">Manage Resources</button>
+        </div>
+  
+        <!-- Participant -->
+        <div *ngIf="authService.getRole() === 'participant'" class="role-card">
+          <div class="role-icon" aria-hidden="true">👨‍🎓</div>
+          <h3>Participant Access</h3>
+          <p>Browse upcoming events and enroll with ease.</p>
+          <button class="primary-btn" routerLink="/view-events">Explore Events</button>
+        </div>
+      </div>
+    </div>
+  </section>

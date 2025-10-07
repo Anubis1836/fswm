@@ -1,0 +1,144 @@
+/* Page shell matches global background & spacing */
+.home {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+  /* ===== HERO ===== */
+  .home-hero {
+    position: relative;
+    min-height: 56vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(120deg, #1e3a8a, #9333ea, #ec4899);
+    color: #fff;
+  
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,.35), rgba(0,0,0,.15));
+    }
+  
+    .hero-content {
+      position: relative;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+  
+    .title {
+      font-size: clamp(1.9rem, 3vw + 1rem, 3rem);
+      font-weight: 800;
+      margin: 0 0 .75rem;
+    }
+  
+    .brand {
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  
+    .tagline {
+      font-size: clamp(1rem, .6vw + .9rem, 1.15rem);
+      line-height: 1.6;
+      opacity: .95;
+      max-width: 720px;
+      margin: 0 auto 1.5rem;
+    }
+  
+    .login-box {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 1.25rem 1.25rem 1.1rem;
+      background: var(--surface-color);
+      color: var(--text-color);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--primary-color);
+  
+      .hint {
+        margin-bottom: .75rem;
+        color: var(--text-secondary-color);
+      }
+      /* uses global .primary-btn (full-width) */
+    }
+  }
+  
+  /* ===== SECTION HEADING ===== */
+  .section-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 2rem 0 1rem;
+    color: var(--text-color);
+  }
+  
+  /* ===== ROLE GRID ===== */
+  .role-section {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+  }
+  
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .role-card {
+    background: var(--surface-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.25rem 1.25rem 1rem;
+    border-top: 4px solid var(--primary-color);
+    transition: transform .25s ease, box-shadow .25s ease;
+  
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.08);
+    }
+  
+    .role-icon {
+      font-size: 1.75rem;
+      margin-bottom: .5rem;
+    }
+  
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 .35rem;
+      color: var(--text-color);
+    }
+  
+    p {
+      color: var(--text-secondary-color);
+      margin: 0 0 .9rem;
+      line-height: 1.5;
+    }
+  
+    /* buttons here use the shared globals from styles.scss:
+       .primary-btn (full width, gradient) and .secondary-btn */
+  }
+  
+  /* Nice little focus ring for accessibility if a button inside gets focus */
+  .role-card :focus-visible,
+  .login-box :focus-visible {
+    outline: 3px solid rgba(79, 70, 229, .35);
+    outline-offset: 2px;
+  }
+  
+  /* Keep spacing consistent with other pages */
+  :host {
+    display: block;
+  }

@@ -1,6 +1,8 @@
 <div class="assign-container">
   <h2>Assign Professional</h2>
   <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    
+    <!-- Event -->
     <div class="form-group">
       <label for="eventId">Event</label>
       <select id="eventId" formControlName="eventId">
@@ -9,7 +11,13 @@
           {{ event.title || ('Event #' + event.id) }}
         </option>
       </select>
+      <small class="error-message"
+        *ngIf="f['eventId'].touched && f['eventId'].invalid">
+        Please select an event.
+      </small>
     </div>
+ 
+    <!-- Professional -->
     <div class="form-group">
       <label for="userId">Professional</label>
       <select id="userId" formControlName="userId">
@@ -18,9 +26,18 @@
           {{ pro.username || pro.name || ('User #' + pro.id) }}
         </option>
       </select>
+      <small class="error-message"
+        *ngIf="f['userId'].touched && f['userId'].invalid">
+        Please select a professional.
+      </small>
     </div>
-    <button type="submit" class="primary-btn">Assign Professional</button>
+ 
+    <button type="submit" class="primary-btn" [disabled]="itemForm.invalid">
+      Assign Professional
+    </button>
   </form>
+ 
   <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
   <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
 </div>
+ 

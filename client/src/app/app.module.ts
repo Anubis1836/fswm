@@ -20,6 +20,7 @@ import { UpdateEventStatusComponent } from './update-event-status/update-event-s
 import { AddFeedbackComponent } from './add-feedback/add-feedback.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { ViewEnrollmentsComponent } from './view-enrollments/view-enrollments.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ViewEnrollmentsComponent } from './view-enrollments/view-enrollments.co
    
       AssignProfessionalComponent,
            UpdateEventStatusComponent,
-           AddFeedbackComponent
+           AddFeedbackComponent,
+           HomeComponent
   ],
   imports: [
     CommonModule,

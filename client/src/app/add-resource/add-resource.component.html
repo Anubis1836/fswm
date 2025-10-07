@@ -1,6 +1,8 @@
 <div class="resource-container">
   <h2>Add Resource</h2>
   <form [formGroup]="itemForm" (ngSubmit)="submit()">
+ 
+    <!-- Event Dropdown -->
     <div class="form-group">
       <label for="eventId">Event</label>
       <select id="eventId" formControlName="eventId">
@@ -9,11 +11,28 @@
           {{ event.title || ('Event #' + event.id) }}
         </option>
       </select>
+      <small class="error-message"
+        *ngIf="f['eventId'].touched && f['eventId'].invalid">
+        Event selection is required.
+      </small>
     </div>
+ 
+    <!-- Type -->
     <div class="form-group">
       <label for="type">Type</label>
-      <input id="type" type="text" formControlName="type" placeholder="Resource type" />
+      <input
+        id="type"
+        type="text"
+        formControlName="type"
+        placeholder="Resource type"
+      />
+      <small class="error-message"
+        *ngIf="f['type'].touched && f['type'].invalid">
+        Type is required and must be at least 3 characters.
+      </small>
     </div>
+ 
+    <!-- Description -->
     <div class="form-group">
       <label for="description">Description</label>
       <textarea
@@ -22,7 +41,13 @@
         formControlName="description"
         placeholder="Describe the resource"
       ></textarea>
+      <small class="error-message"
+        *ngIf="f['description'].touched && f['description'].invalid">
+        Description is required and must be at least 10 characters.
+      </small>
     </div>
+ 
+    <!-- Availability -->
     <div class="form-group">
       <label for="availabilityStatus">Availability</label>
       <select id="availabilityStatus" formControlName="availabilityStatus">
@@ -30,9 +55,19 @@
         <option value="Available">Available</option>
         <option value="Unavailable">Unavailable</option>
       </select>
+      <small class="error-message"
+        *ngIf="f['availabilityStatus'].touched && f['availabilityStatus'].invalid">
+        Availability status is required.
+      </small>
     </div>
-    <button type="submit" class="primary-btn">Add Resource</button>
+ 
+    <button type="submit" class="primary-btn" [disabled]="itemForm.invalid">
+      Add Resource
+    </button>
   </form>
+ 
   <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
   <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
 </div>
+Myrried - Wedding Invitation
+ 

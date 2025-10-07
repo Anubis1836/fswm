@@ -17,6 +17,7 @@ import { UpdateEventStatusComponent } from './update-event-status/update-event-s
 import { AddFeedbackComponent } from './add-feedback/add-feedback.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { ViewEnrollmentsComponent } from './view-enrollments/view-enrollments.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -30,10 +31,10 @@ const routes: Routes = [
   { path: 'view-events', component: ViewEventsComponent },  
   { path: 'events/:id', component: EventDetailsComponent},
   { path: 'api/events/:eventId/enrollments', component: ViewEnrollmentsComponent},
- 
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
 
-  { path: '**', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({
