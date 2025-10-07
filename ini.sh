@@ -12,14 +12,13 @@ echo "------------------"
 echo "Please add this key to your GitHub account"
 echo "See this link 'https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-you… on how to do so"
 read -p "Press enter to continue once you've added the key to your GitHub profile..."
- 
- 
+
 # Initialise git flow
 echo "Enter your github username: "
 read username
 echo "Enter your repo name: "
 read repo
- 
+
 # Set git credentials
 git config --global user.name username
 git config --global user.email wecp-dummy@gmail.com

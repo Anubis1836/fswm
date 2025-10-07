@@ -64,3 +64,26 @@ h2 {
   color: #4f46e5;
   text-decoration: underline;
 }
+.password-rules p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  color: #dc2626; /* red for invalid */
+}
+.password-rules p.valid {
+  color: #15803d; /* green for valid */
+  font-weight: bold;
+}
+ 
+.error-message {
+  color: #dc2626;
+  font-size: 0.9rem;
+}
+ 
+.valid {
+  color: #15803d;
+  font-weight: bold;
+  font-size: 0.9rem;
+  font-weight: bold;
+
+}
+ 

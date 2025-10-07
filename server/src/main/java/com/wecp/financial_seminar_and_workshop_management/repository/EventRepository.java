@@ -10,4 +10,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findByInstitutionIdOrderByIdAsc(Long institutionId);
     List<Event> findAllByOrderByIdAsc();
     List<Event> findByProfessionals_IdOrderByIdAsc(Long userId);
+    Boolean existsByTitleAndInstitutionId(String title,Long institutionId);
 }

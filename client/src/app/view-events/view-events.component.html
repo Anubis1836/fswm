@@ -1,9 +1,36 @@
 <div class="events-container">
   <h2>All Events</h2>
-  <!-- Display any error from loading events -->
+ 
+  <!-- 🔍 Search + Location Filter -->
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Search events by title..."
+      [value]="searchQuery"
+      (input)="onSearch($event)"
+      class="search-input"
+    />
+ 
+    <!-- 🗺️ Location dropdown -->
+    <select
+      [(ngModel)]="selectedLocation"
+      (change)="onLocationChange($event)"
+      class="filter-select"
+    >
+      <option value="">All Locations</option>
+      <option *ngFor="let loc of uniqueLocations" [value]="loc">
+        {{ loc }}
+      </option>
+    </select>
+ 
+    <button type="button" class="clear-btn" (click)="onSearch('')">Clear</button>
+  </div>
+ 
+  <!-- Errors -->
   <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+ 
   <!-- Events Table -->
-  <table class="events-table" *ngIf="events.length">
+  <table class="events-table" *ngIf="filteredEvents.length">
     <thead>
       <tr>
         <th>Title</th>
@@ -13,17 +40,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let event of events">
+      <tr *ngFor="let event of filteredEvents">
         <td>{{ event.title }}</td>
         <td>{{ event.schedule | date: 'mediumDate' }}</td>
         <td>{{ event.location }}</td>
         <td *ngIf="!authService.isRole('professional')">
-          <button (click)="checkStatus(event.id)" class="secondary-btn">
-            Check Status
-          </button>
-          <button (click)="viewDetails(event.id)" class="secondary-btn">
-            View Details
-          </button>
+          <button (click)="checkStatus(event.id)" class="secondary-btn">Check Status</button>
+          <button (click)="viewDetails(event.id)" class="secondary-btn">View Details</button>
           <button (click)="enroll(event.id)" class="primary-btn">Enroll</button>
           <div class="status-text" *ngIf="statusResults[event.id]">
             {{ statusResults[event.id] }}
@@ -32,5 +55,7 @@
       </tr>
     </tbody>
   </table>
-  <p *ngIf="!events.length && !errorMessage">No events available.</p>
+ 
+  <p *ngIf="!filteredEvents.length && !errorMessage">No events found.</p>
 </div>
+ 

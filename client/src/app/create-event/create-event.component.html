@@ -1,18 +1,38 @@
 <div class="event-container">
   <h2>Create Event</h2>
   <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <!-- Title -->
     <div class="form-group">
       <label for="title">Title</label>
       <input id="title" type="text" formControlName="title" placeholder="Event title" />
+      <small class="error" *ngIf="f['title'].touched && f['title'].errors?.['required']">Title is required.</small>
+      <small class="error" *ngIf="f['title'].touched && f['title'].errors?.['minlength']">
+        Minimum 5 characters required.
+      </small>
+      <small class="error" *ngIf="f['title'].touched && f['title'].errors?.['titleTaken']">
+        This title already exists for your institution.
+      </small>
     </div>
+     
+ 
+    <!-- Schedule -->
     <div class="form-group">
       <label for="schedule">Schedule</label>
       <input id="schedule" type="datetime-local" formControlName="schedule" />
+      <small class="error" *ngIf="f['schedule'].touched && f['schedule'].errors?.['required']">Schedule is required.</small>
     </div>
+ 
+    <!-- Location -->
     <div class="form-group">
       <label for="location">Location</label>
       <input id="location" type="text" formControlName="location" placeholder="Event location" />
+      <small class="error" *ngIf="f['location'].touched && f['location'].errors?.['required']">Location is required.</small>
+      <small class="error" *ngIf="f['location'].touched && f['location'].errors?.['minlength']">
+        Minimum 3 characters required.
+      </small>
     </div>
+ 
+    <!-- Status -->
     <div class="form-group">
       <label for="status">Status</label>
       <select id="status" formControlName="status">
@@ -22,18 +42,23 @@
         <option value="Completed">Completed</option>
         <option value="Cancelled">Cancelled</option>
       </select>
+      <small class="error" *ngIf="f['status'].touched && f['status'].errors?.['required']">Status is required.</small>
     </div>
+ 
+    <!-- Description -->
     <div class="form-group">
       <label for="description">Description</label>
-      <textarea
-        id="description"
-        rows="3"
-        formControlName="description"
-        placeholder="Describe the event"
-      ></textarea>
+      <textarea id="description" rows="3" formControlName="description" placeholder="Describe the event"></textarea>
+      <small class="error" *ngIf="f['description'].touched && f['description'].errors?.['required']">Description is required.</small>
+      <small class="error" *ngIf="f['description'].touched && f['description'].errors?.['minlength']">
+        Minimum 10 characters required.
+      </small>
     </div>
+ 
     <button type="submit" class="primary-btn">Create Event</button>
   </form>
+ 
   <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
   <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
 </div>
+ 

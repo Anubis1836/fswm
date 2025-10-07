@@ -130,4 +130,24 @@ export class HttpService {
   getEnrollments(eventId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.serverName}/api/events/${eventId}/enrollments`, this.opts());
   }
+
+
+  checkEmailExists(email: string) {
+    return this.http.get<boolean>(`${this.serverName}/api/user/exists/email?email=${email}`);
+  }
+   
+  checkUsernameExists(username: string) {
+    return this.http.get<boolean>(`${this.serverName}/api/user/exists/username?username=${username}`);
+  }
+   
+  checkEventTitle(title: string, institutionId: string | null) {
+    return this.http.post<{ exists: boolean }>(`${this.serverName}api/events/check-title`, {
+      title,
+      institutionId
+    },
+    this.opts()
+    );
+  }
+  
+   
 }

@@ -1,21 +1,50 @@
+
 <div class="registration-container">
   <h2>Register</h2>
   <form [formGroup]="itemForm" (ngSubmit)="register()">
+ 
+    <!-- Username -->
     <div class="form-group">
       <label for="username">Username</label>
       <input id="username" type="text" formControlName="username" placeholder="Enter username" />
+      <div *ngIf="f['username'].touched && f['username'].errors">
+        <div *ngIf="f['username'].errors['required']" class="error-message">Username required</div>
+        <div *ngIf="f['username'].errors['minlength']" class="error-message">Username must be at least 6 characters</div>
+        <div *ngIf="f['username'].errors['usernameExists']" class="error-message">Username already taken</div>
+        <div *ngIf="f['username'].errors?.['serverError']" class="error-message">
+          {{ f['username'].errors['serverError'] }}
+        </div>
+      </div>
     </div>
+ 
+    <!-- Email -->
     <div class="form-group">
       <label for="email">Email</label>
       <input id="email" type="email" formControlName="email" placeholder="Enter email" />
+      <div *ngIf="f['email'].touched && f['email'].errors">
+        <div *ngIf="f['email'].errors['required']" class="error-message">Email required</div>
+        <div *ngIf="f['email'].errors['email']" class="error-message">Invalid email format</div>
+        <div *ngIf="f['email'].errors['emailExists']" class="error-message">Email already in use</div>
+        <div *ngIf="f['email'].errors?.['serverError']" class="error-message">
+          {{ f['email'].errors['serverError'] }}
+        </div>
+      </div>
     </div>
+ 
+    <!-- Password -->
     <div class="form-group">
       <label for="password">Password</label>
       <input id="password" type="password" formControlName="password" placeholder="Enter password" />
-      <div *ngIf="itemForm.get('password')?.hasError('required')">
-        Password required
+      <div *ngIf="f['password'].touched" class="password-rules">
+        <p *ngIf="!passwordRules.hasUpperCase">At least one uppercase letter</p>
+        <p *ngIf="!passwordRules.hasLowerCase">At least one lowercase letter</p>
+        <p *ngIf="!passwordRules.hasNumber">At least one number</p>
+        <p *ngIf="!passwordRules.hasSpecialChar">At least one special character (*&#35;^%@!)</p>
+        <p *ngIf="!passwordRules.minLength">Minimum 8 characters</p>
       </div>
     </div>
+ 
+    <!-- Role -->
     <div class="form-group">
       <label for="role">Role</label>
       <select id="role" formControlName="role">
@@ -24,12 +53,18 @@
         <option value="professional">Professional</option>
         <option value="institution">Institution</option>
       </select>
+      <div *ngIf="f['role'].touched && f['role'].errors?.['required']" class="error-message">
+        Role required
+      </div>
     </div>
+ 
     <button type="submit" class="primary-btn">Register</button>
   </form>
+ 
   <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
   <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
   <p class="login-link">
     Already have an account? <a routerLink="/login">Login</a>
   </p>
 </div>
+ 

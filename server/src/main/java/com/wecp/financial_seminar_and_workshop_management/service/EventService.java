@@ -22,9 +22,12 @@ public class EventService {
     @Autowired private EnrollmentRepository enrollmentRepository;
 
     public Event create(Event event) {
+        boolean exists = eventRepository.existsByTitleAndInstitutionId(event.getTitle(), event.getInstitutionId());
+        if (exists) {
+            throw new RuntimeException("An event with this title already exists for your institution.");
+        }
         return eventRepository.save(event);
     }
-
     public Event update(Long id, Event updated) {
         Event e = eventRepository.findById(id).orElseThrow();
         e.setTitle(updated.getTitle());
@@ -69,4 +72,9 @@ public class EventService {
     public List<Enrollment> getAllEnrollments(Long id) {
         return enrollmentRepository.findAllByEventId(id);
     }
+    public boolean isEventTitleTaken(String title, Long institutionId) {
+        return eventRepository.existsByTitleAndInstitutionId(title, institutionId);
+    }
+     
+
 }
