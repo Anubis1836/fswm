@@ -26,11 +26,24 @@
     <button type="button" class="clear-btn" (click)="onSearch('')">Clear</button>
   </div>
  
+  <!-- ⚙️ Page size selector -->
+  <div class="page-size-container" *ngIf="filteredEvents.length">
+    <label for="pageSize">Events per page:</label>
+    <input
+      id="pageSize"
+      type="number"
+      min="1"
+      [value]="pageSize"
+      (input)="onPageSizeChange($event)"
+      class="page-size-input"
+    />
+  </div>
+ 
   <!-- Errors -->
   <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
  
   <!-- Events Table -->
-  <table class="events-table" *ngIf="filteredEvents.length">
+  <table class="events-table" *ngIf="paginatedEvents.length">
     <thead>
       <tr>
         <th>Title</th>
@@ -40,7 +53,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let event of filteredEvents">
+      <tr *ngFor="let event of paginatedEvents">
         <td>{{ event.title }}</td>
         <td>{{ event.schedule | date: 'mediumDate' }}</td>
         <td>{{ event.location }}</td>
@@ -57,5 +70,11 @@
   </table>
  
   <p *ngIf="!filteredEvents.length && !errorMessage">No events found.</p>
-</div>
  
+  <!-- 📄 Pagination Controls -->
+  <div class="pagination-controls" *ngIf="filteredEvents.length > pageSize">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>
