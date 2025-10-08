@@ -53,6 +53,17 @@ export class HttpService {
     );
   }
 
+  uploadResource( formData: FormData): Observable<any> {
+    const eventId=formData.get('eventId')
+    const token = localStorage.getItem('token')
+    return this.http.post(`${this.serverName}/api/institution/event/${eventId}/resource/upload`, formData,{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    });
+  }
+   
+
   GetAllProfessionals(): Observable<any> {
     return this.http.get(`${this.serverName}/api/institution/event/professionals`, this.opts());
   }
@@ -141,7 +152,7 @@ export class HttpService {
   }
    
   checkEventTitle(title: string, institutionId: string | null) {
-    return this.http.post<{ exists: boolean }>(`${this.serverName}api/events/check-title`, {
+    return this.http.post<{ exists: boolean }>(`${this.serverName}/api/events/check-title`, {
       title,
       institutionId
     },

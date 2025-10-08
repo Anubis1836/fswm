@@ -47,8 +47,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllEnrollments(eventId));
     }
 
-    // ✅ Async check endpoint for Angular validation
-    @PostMapping("/check-title")
+    @PostMapping("/api/events/check-title")
     public ResponseEntity<Map<String, Boolean>> checkEventTitle(@RequestBody Map<String, Object> payload) {
         String title = (String) payload.get("title");
         Long institutionId = Long.valueOf(payload.get("institutionId").toString());
@@ -58,4 +57,6 @@ public class EventController {
         response.put("exists", exists);
         return ResponseEntity.ok(response);
     }
+
+    
 }

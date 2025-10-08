@@ -27,4 +27,8 @@ public class ResourceService {
     public List<Resource> getByEventId(Long eventId) {
         return resourceRepository.findByEventId(eventId);
     }
+
+    public Resource save(Resource resource){
+        return resourceRepository.save(resource);
+    }
 }

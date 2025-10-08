@@ -8,11 +8,22 @@ import com.wecp.financial_seminar_and_workshop_management.entity.User;
 import com.wecp.financial_seminar_and_workshop_management.service.EventService;
 import com.wecp.financial_seminar_and_workshop_management.service.ResourceService;
 import com.wecp.financial_seminar_and_workshop_management.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -52,4 +63,40 @@ public class InstitutionController {
     public ResponseEntity<?> assignProfessionalToEvent(@PathVariable Long eventId, @RequestParam Long userId) {
         return ResponseEntity.ok(eventService.assignProfessional(eventId, userId));
     }
+
+    @PostMapping("/api/institution/event/{eventId}/resource/upload")
+public ResponseEntity<?> uploadResource(
+        @PathVariable Long eventId,
+        @RequestParam("file") MultipartFile file,
+        @RequestParam("type") String type,
+        @RequestParam("description") String description,
+        @RequestParam("availabilityStatus") String availabilityStatus) {
+ 
+    try {
+        // Save file to local disk
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        Path uploadPath = Paths.get("uploads/" + eventId);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        Path filePath = uploadPath.resolve(filename);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+ 
+        // Save resource info to DB
+        Resource resource = new Resource();
+        resource.setId(eventId);
+        resource.setType(type);
+        resource.setDescription(description);
+        resource.setAvailabilityStatus(availabilityStatus);
+        resource.setFileUrl("/uploads/" + eventId + "/" + filename);
+        resourceService.save(resource);
+ 
+        return ResponseEntity.ok("Resource uploaded successfully");
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(500).body("Could not upload resource");
+    }
+}
+ 
+ 
 }

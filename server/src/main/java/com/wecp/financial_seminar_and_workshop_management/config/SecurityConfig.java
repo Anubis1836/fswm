@@ -37,43 +37,48 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors().and().csrf().disable()
-            .authorizeRequests()
-            // Public endpoints
-            .antMatchers("/api/user/login").permitAll()
-            .antMatchers("/api/user/register").permitAll()
+                .authorizeRequests()
+                // Public endpoints
+                .antMatchers("/api/user/login").permitAll()
+                .antMatchers("/api/user/register").permitAll()
 
-            // Institution endpoints
-            .antMatchers(HttpMethod.POST, "/api/institution/event").hasAuthority("institution")
-            .antMatchers(HttpMethod.PUT, "/api/institution/event/**").hasAuthority("institution")
-            .antMatchers(HttpMethod.POST, "/api/institution/event/**/resource").hasAuthority("institution")
-            .antMatchers(HttpMethod.POST, "/api/institution/event/**/professional").hasAuthority("institution")
-            .antMatchers(HttpMethod.GET, "/api/institution/events").hasAuthority("institution")
-            .antMatchers(HttpMethod.GET, "/api/institution/event/professionals").hasAuthority("institution")
+                // Institution endpoints
+                .antMatchers(HttpMethod.POST, "/api/institution/event").hasAuthority("institution")
+                .antMatchers(HttpMethod.PUT, "/api/institution/event/**").hasAuthority("institution")
+                .antMatchers(HttpMethod.POST, "/api/institution/event/**/resource").hasAuthority("institution")
+                .antMatchers(HttpMethod.POST, "/api/institution/event/**/professional").hasAuthority("institution")
+                .antMatchers(HttpMethod.GET, "/api/institution/events").hasAuthority("institution")
+                .antMatchers(HttpMethod.GET, "/api/institution/event/professionals").hasAuthority("institution")
+                .antMatchers(HttpMethod.POST, "/api/institution/event/**/resource/upload")
+                .hasAnyAuthority("institution", "professional")
 
-            // Professional endpoints
-            .antMatchers(HttpMethod.GET, "/api/professional/events").hasAnyAuthority("professional")
-            .antMatchers(HttpMethod.PUT, "/api/professional/event/**/status").hasAnyAuthority("professional", "institution")
-            .antMatchers(HttpMethod.POST, "/api/professional/event/**/feedback").hasAuthority("professional")
+                // Professional endpoints
+                .antMatchers(HttpMethod.GET, "/api/professional/events").hasAnyAuthority("professional")
+                .antMatchers(HttpMethod.PUT, "/api/professional/event/**/status")
+                .hasAnyAuthority("professional", "institution")
+                .antMatchers(HttpMethod.POST, "/api/professional/event/**/feedback").hasAuthority("professional")
 
-            // Participant endpoints
-            .antMatchers(HttpMethod.GET, "/api/participant/events").hasAnyAuthority("participant","institution")
-            .antMatchers(HttpMethod.GET, "/api/participant/event/**/status").hasAnyAuthority("participant", "institution")
-            .antMatchers(HttpMethod.POST, "/api/participant/event/**/enroll").hasAuthority("participant")
+                // Participant endpoints
+                .antMatchers(HttpMethod.GET, "/api/participant/events").hasAnyAuthority("participant", "institution")
+                .antMatchers(HttpMethod.GET, "/api/participant/event/**/status")
+                .hasAnyAuthority("participant", "institution")
+                .antMatchers(HttpMethod.POST, "/api/participant/event/**/enroll").hasAuthority("participant")
 
-            // Finance endpoints
-            .antMatchers(HttpMethod.GET, "/api/finance/events").hasAnyAuthority("institution", "participant", "professional")
-            .antMatchers(HttpMethod.GET, "/api/events/**/enrollments").hasAuthority("institution")
+                // Finance endpoints
+                .antMatchers(HttpMethod.GET, "/api/finance/events")
+                .hasAnyAuthority("institution", "participant", "professional")
+                .antMatchers(HttpMethod.GET, "/api/events/**/enrollments").hasAuthority("institution")
+                .antMatchers(HttpMethod.POST, "/api/events/check-title").hasAuthority("institution")
+                // All other API requests require authentication
+                .antMatchers("/api/**").authenticated()
 
-            // All other API requests require authentication
-            .antMatchers("/api/**").authenticated()
-
-            .and()
-            .sessionManagement()
+                .and()
+                .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
@@ -82,7 +87,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoders());

@@ -1,51 +1,419 @@
-<section class="home">
-    <!-- HERO -->
-    <div class="home-hero">
-      <div class="overlay"></div>
-      <div class="hero-content">
+<!-- 
+
+
+
+
+<section class="hero-section d-flex align-items-center justify-content-center text-center" data-aos="zoom-in">
+  <div class="overlay"></div>
+  <div class="container position-relative">
+    <h1 class="display-5 fw-bold animate-title">Welcome to Workshop Management</h1>
+    <p class="lead mt-3 mx-auto col-md-8 fade-in">
+      Manage events, assign professionals, upload resources, and gather feedback — all in one place.
+    </p>
+    <div class="mt-4 slide-up">
+      <a routerLink="/create-event" *ngIf="authService.isRole('institution')" class="btn btn-light btn-lg me-3">Create Event</a>
+      <a routerLink="/view-events" class="btn btn-outline-light btn-lg">View Events</a>
+    </div>
+  </div>
+</section>  -->
+
+
+
+
+
+
+
+<section class="home" #root (mousemove)="parallax($event)">
+  <!-- === HERO ==================================================== -->
+  <header class="hero" role="banner" aria-label="Finovent welcome section">
+    <div class="bg-grid"></div>
+
+    <div class="container hero-grid">
+      <!-- LEFT -->
+      <div class="left">
+        <span class="eyebrow">FINANCIAL EVENTS PLATFORM</span>
+
         <h1 class="title">
-          Welcome to <span class="brand">Finovent</span>
+          Orchestrate <span class="underline">events</span> with confidence
         </h1>
-        <p class="tagline">
-          A unified platform for financial institutions, professionals, and participants to manage and engage in events seamlessly.
+
+        <p class="lead">
+          Plan, publish, and manage financial seminars with a unified workflow for institutions,
+          professionals, and participants.
         </p>
-  
+
         <!-- Not logged in -->
-        <div *ngIf="!authService.getLoginStatus()" class="login-box">
-          <p class="hint">Please login to continue.</p>
-          <button class="primary-btn" routerLink="/login">Login Now</button>
+        <div *ngIf="!authService.getLoginStatus()" class="cta">
+          <button class="btn primary" routerLink="/login" (click)="ripple($event)">Login Now</button>
+          <a class="btn ghost" routerLink="/view-events" (click)="ripple($event)">Browse Events</a>
         </div>
+
+        <ul class="badges" aria-label="Highlights">
+          <p><span class="dot"></span> Secure access</p>
+          <p><span class="dot"></span> Real-time updates</p>
+          <p><span class="dot"></span> Role-based tools</p>
+        </ul>
+      </div>
+
+      <!-- RIGHT: glass metric stack -->
+      <div class="right">
+        <div class="glass card stack" style="--d:0">
+          <div class="kpi">
+            <span class="kpi-label">Next Event</span>
+            <span class="kpi-value">Thu • 10:00</span>
+          </div>
+          <div class="progress"><div class="bar" style="--p:72%"></div></div>
+          <div class="meta">72% seats filled</div>
+        </div>
+
+        <div class="glass card stack" style="--d:1">
+          <div class="kpi">
+            <span class="kpi-label">Active Enrollments</span>
+            <span class="kpi-value">128</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Banking</span><span class="tag">Investing</span><span class="tag">Risk</span>
+          </div>
+        </div>
+
+        <div class="glass card stack" style="--d:2">
+          <div class="kpi">
+            <span class="kpi-label">Resources Shared</span>
+            <span class="kpi-value">36</span>
+          </div>
+          <div class="meta subtle">Last updated 2m ago</div>
+        </div>
+
+        <div class="ring"></div>
       </div>
     </div>
-  
-    <!-- ROLE CARDS -->
-    <div *ngIf="authService.getLoginStatus()" class="role-section">
-      <h2 class="section-title">Continue as</h2>
-  
-      <div class="role-grid">
-        <!-- Institution -->
-        <div *ngIf="authService.getRole() === 'institution'" class="role-card">
-          <div class="role-icon" aria-hidden="true">🏫</div>
+  </header>
+
+  <!-- === QUICK ACTIONS (after login) ============================= -->
+  <main *ngIf="authService.getLoginStatus()" class="actions">
+    <div class="container">
+      <h2 class="section-title">Quick actions</h2>
+
+      <div class="tiles">
+        <a *ngIf="authService.getRole() === 'institution'"
+           class="tile reveal"
+           routerLink="/dashboard"
+           (pointermove)="tilt($event)" (pointerleave)="untilt($event)">
+          <div class="icon">🏫</div>
           <h3>Institution Dashboard</h3>
-          <p>Organize and manage financial seminars and events.</p>
-          <button class="primary-btn" routerLink="/dashboard">Go to Dashboard</button>
-        </div>
-  
-        <!-- Professional -->
-        <div *ngIf="authService.getRole() === 'professional'" class="role-card">
-          <div class="role-icon" aria-hidden="true">👩‍🏫</div>
+          <p>Create, publish, and monitor seminars.</p>
+          <span class="arrow">→</span>
+        </a>
+
+        <a *ngIf="authService.getRole() === 'professional'"
+           class="tile reveal"
+           routerLink="/add-resource"
+           (pointermove)="tilt($event)" (pointerleave)="untilt($event)">
+          <div class="icon">👩‍🏫</div>
           <h3>Professional Tools</h3>
-          <p>View your assigned events and share resources.</p>
-          <button class="secondary-btn" routerLink="/add-resource">Manage Resources</button>
-        </div>
-  
-        <!-- Participant -->
-        <div *ngIf="authService.getRole() === 'participant'" class="role-card">
-          <div class="role-icon" aria-hidden="true">👨‍🎓</div>
+          <p>View assigned events and share resources.</p>
+          <span class="arrow">→</span>
+        </a>
+
+        <a *ngIf="authService.getRole() === 'participant'"
+           class="tile reveal"
+           routerLink="/view-events"
+           (pointermove)="tilt($event)" (pointerleave)="untilt($event)">
+          <div class="icon">👨‍🎓</div>
           <h3>Participant Access</h3>
-          <p>Browse upcoming events and enroll with ease.</p>
-          <button class="primary-btn" routerLink="/view-events">Explore Events</button>
+          <p>Explore upcoming events and enroll.</p>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- === FINANCE INSIGHTS (animated) ============================= -->
+  <section class="insights">
+    <div class="container">
+      <div class="insights-wrap">
+        <div class="insights-copy">
+          <h2>Market pulse for your events</h2>
+          <p class="muted">
+            Keep attendees engaged with timely insights. The live vignette below simulates a moving
+            market line and candlesticks — subtle, performant, and theme-aware.
+          </p>
+          <ul class="bullets">
+            <li>Auto-updating charts per topic</li>
+            <li>Resource drops in-session</li>
+            <li>Post-event analytics</li>
+          </ul>
+        </div>
+
+        <!-- Animated finance visual (pure SVG/CSS) -->
+        <div class="insights-viz card reveal" aria-hidden="true">
+          <svg class="chart" viewBox="0 0 640 280" preserveAspectRatio="xMidYMid meet">
+            <!-- grid -->
+            <g opacity="0.25" stroke="var(--border-color)">
+              <line *ngFor="let y of [40,80,120,160,200,240]" [attr.y1]="y" [attr.y2]="y" x1="40" x2="600"></line>
+              <line *ngFor="let x of [120,200,280,360,440,520]" [attr.x1]="x" [attr.x2]="x" y1="20" y2="260"></line>
+            </g>
+
+            <!-- animated line -->
+            <polyline
+              class="line"
+              points="40,220 80,210 120,190 160,200 200,170 240,180 280,140 320,160 360,120 400,140 440,110 480,140 520,100 560,120 600,90"
+              fill="none" stroke="var(--primary-color)" stroke-width="3" />
+
+            <!-- simple candles -->
+            <g class="candles" fill="var(--primary-color)">
+              <rect x="130" y="130" width="6" height="40"/>
+              <rect x="210" y="150" width="6" height="28"/>
+              <rect x="290" y="120" width="6" height="44"/>
+              <rect x="370" y="110" width="6" height="48"/>
+              <rect x="450" y="98"  width="6" height="50"/>
+              <rect x="530" y="100" width="6" height="46"/>
+            </g>
+          </svg>
+
+          <!-- scrolling ticker -->
+          <div class="ticker" aria-label="sample market marquee">
+            <div class="tape">
+              <span>FTSE +0.8%</span>
+              <span>NIFTY +0.6%</span>
+              <span>NASDAQ -0.3%</span>
+              <span>SENSEX +0.2%</span>
+              <span>EURO STOXX +0.4%</span>
+              <span>US10Y 4.21%</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- === FINANCE EVENT GALLERY ================================== -->
+  <section class="gallery">
+    <div class="container">
+      <h2 class="section-title">Our Valuable Services</h2>
+      <p class="muted center">Empowering Every Financial Event with Innovation and Precision</p>
+
+      <div class="gallery-grid">
+        <!-- Replace src with your real images under /assets/finance/ -->
+        <a routerLink="/view-events" class="gcard reveal">
+          <img src="./assets/ser2.jpg" alt="Seminar hall" loading="lazy"/>
+          <div class="overlay">
+            <h4>Live investment Demo</h4>
+            <span></span>
+          </div>
+        </a>
+
+        <a routerLink="/view-events" class="gcard reveal">
+          <img src="assets/ser3.jpg" alt="Workshop session" loading="lazy"/>
+          <div class="overlay">
+            <h4>Feedback Hub</h4>
+            <span></span>
+          </div>
+        </a>
+
+        <a routerLink="/view-events" class="gcard reveal">
+          <img src="assets/ser1.jpg" alt="Networking" loading="lazy"/>
+          <div class="overlay">
+            <h4>Personal Finance Booth</h4>
+            <span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+<!--===========================================-->
+
+
+<!-- ===== Speakers Section ===== -->
+ <!-- <section class="speakers-section py-5" data-aos="fade-up">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-gradient">Speakers & Topics</h2>
+      <p class="mx-auto col-md-8">Meet the professionals who will lead our sessions.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-sm-6 col-md-4" *ngFor="let s of speakers; let i = index" [attr.data-aos]="'zoom-in'" [attr.data-aos-delay]="i*120">
+        <div class="speaker-card text-center p-4 h-100">
+          <div class="speaker-img mb-3">
+            <img [src]="s.img" [alt]="s.name" />
+          </div>
+          <h5 class="mb-1">{{ s.name }}</h5>
+          <p class="small text-muted">{{ s.topic }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>  -->
+
+
+
+
+
+<!-- <div class ="row justify-content-center gy-4">
+<div class="col-sm-6 col-md-4" *ngFor="let s of speakers; let i = index" 
+     [attr.data-aos]="'zoom-in'" 
+     [attr.data-aos-delay]="i * 120">
+  
+  <div class="speaker-card-wrapper" (click)="s.flipped = !s.flipped">
+    <div class="speaker-card" [class.flipped]="s.flipped"> -->
+      
+       <!--Front Side -->
+      <!-- <div class="card-front text-center p-4 h-100">
+        <div class="speaker-img mb-3">
+          <img [src]="s.img" [alt]="s.name" />
+        </div>
+        <h5 class="mb-1">{{ s.name }}</h5>
+        <p class="small text-muted">{{ s.topic }}</p>
+      </div> -->
+      
+      <!-- Back Side -->
+      <!-- <div class="card-back text-center p-4 h-100">
+        <h5>About {{ s.name }}</h5>
+        <p class="small text-muted">{{ s.about }}</p>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</div> --> 
+
+
+
+
+
+
+
+
+<!-- ===== Upcoming Popular Events ===== -->
+<!-- <section class="upcoming-section py-5" data-aos="fade-up">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-gradient">Upcoming Popular Events</h2>
+      <p class="mx-auto col-md-8">Don't miss these trending events — register now.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let ev of upcomingEvents; let i = index" [attr.data-aos]="'fade-up'" [attr.data-aos-delay]="i*120">
+        <div class="event-card p-3 h-100 d-flex flex-column">
+          <div class="event-img mb-3">
+            <img [src]="ev.img" [alt]="ev.title" />
+          </div>
+          <div class="flex-grow-1">
+            <h5>{{ ev.title }}</h5>
+            <p class="small text-muted">{{ ev.date | date:'mediumDate' }}</p>
+            <p class="small">{{ ev.summary }}</p>
+          </div>
+          <div class="mt-3">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+
+
+<section class="speakers-section container py-5">
+  <h2 class="section-title text-center mb-4"> Meet Our Speakers</h2>
+
+  <div class="row justify-content-center gy-4">
+    <div
+      class="col-sm-6 col-md-4"
+      *ngFor="let s of speakers; let i = index"
+      [attr.data-aos]="'zoom-in'"
+      [attr.data-aos-delay]="i * 120"
+    >
+      <div class="speaker-card-wrapper" (click)="s.flipped = !s.flipped">
+        <div class="speaker-card" [class.flipped]="s.flipped">
+          <!-- Front Side -->
+          <div class="card-front text-center p-4 h-100">
+            <div class="speaker-img mb-3">
+              <img [src]="s.img" [alt]="s.name" />
+            </div>
+            <h5 class="mb-1">{{ s.name }}</h5>
+            <p class="small text-muted">{{ s.topic }}</p>
+          </div>
+
+          <!-- Back Side -->
+          <div class="card-back text-center p-4 h-100">
+            <h5>About {{ s.name }}</h5>
+            <p class="small text-muted">{{ s.about }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Upcoming Events Section ===== -->
+<section class="events-section container py-5 mt-5">
+  <h2 class="section-title text-center mb-4"> Upcoming Events</h2>
+
+  <div class="row justify-content-center gy-4">
+    <div
+      class="col-sm-6 col-md-4"
+      *ngFor="let e of events; let i = index"
+      [attr.data-aos]="'fade-up'"
+      [attr.data-aos-delay]="i * 100"
+    >
+      <div class="event-card p-4 h-100 text-center">
+        <div class="event-icon mb-3">
+          <img [src]="e.img" [alt]="e.title" />
+        </div>
+        <h5 class="mb-2">{{ e.title }}</h5>
+        <p class="small text-muted mb-1">{{ e.date }}</p>
+        <p class="event-desc">{{ e.desc }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<footer class="footer-section">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- About -->
+      <div class="footer-col">
+        <h4>Finovent</h4>
+        <p>Empowering financial events with innovation and precision. Plan, manage, and analyze your seminars easily.</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a routerLink="/view-events">View Events</a></li>
+          <li><a routerLink="/dashboard">Dashboard</a></li>
+          <li><a routerLink="/contact">Contact Us</a></li>
+          <li><a routerLink="/about">About</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>Email: info@finovent.com</p>
+        <p>Phone: +91 98765 43210</p>
+        <p>Address: 123 Finance St, Chennai, India</p>
+      </div>
+
+      <!-- Social Media -->
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Finovent. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>

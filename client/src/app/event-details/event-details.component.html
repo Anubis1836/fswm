@@ -49,8 +49,8 @@
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let res of eventData.resources">
             <i class="bi bi-link-45deg text-primary me-2"></i>
-            {{res.description}}
-          </li>
+            <a [href]="res.fileUrl" target="_blank">{{ res.type }} ({{ res.description }})</a>
+          </li>          
         </ul>
       </div>
       <ng-template #noResources>

@@ -1,0 +1,111 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Theme colors (fallbacks if not inlined in page) -->
+    <linearGradient id="gPrimary" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#db2777"/>
+    </linearGradient>
+
+    <!-- Soft glow -->
+    <filter id="glow4" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="B"/>
+      <feMerge><feMergeNode in="B"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow8" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="B"/>
+      <feMerge><feMergeNode in="B"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Coin gradient -->
+    <radialGradient id="coin" cx="35%" cy="35%" r="75%">
+      <stop offset="0" stop-color="#ffd166"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </radialGradient>
+
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1221"/>
+      <stop offset="1" stop-color="#0a0e1a"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    /* Keep animations GPU-friendly (transform/opacity/stroke-dashoffset) */
+    .float-a { animation: floatA 8s ease-in-out infinite; }
+    .float-b { animation: floatB 10s ease-in-out infinite; }
+    .float-c { animation: floatC 12s ease-in-out infinite; }
+    .pulse   { animation: pulse 3.2s ease-in-out infinite; }
+    .dash    { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: dash 12s ease-in-out infinite alternate; }
+    .slide   { animation: slide 22s linear infinite; }
+    .twinkle { animation: twinkle 6s ease-in-out infinite; }
+
+    @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+    @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-22px)} }
+    @keyframes floatC { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes pulse   { 0%,100%{opacity:.85} 50%{opacity:1} }
+    @keyframes dash    { to { stroke-dashoffset: 0; } }
+    @keyframes slide   { 0%{transform:translateX(0)} 100%{transform:translateX(-300px)} }
+    @keyframes twinkle { 0%,100%{opacity:.3} 50%{opacity:.8} }
+    @media (prefers-reduced-motion: reduce) {
+      .float-a,.float-b,.float-c,.pulse,.dash,.slide,.twinkle { animation: none !important; }
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="1200" height="600" fill="url(#bg)"/>
+
+  <!-- Soft orbs -->
+  <g opacity=".35" filter="url(#glow8)">
+    <circle cx="1100" cy="540" r="140" fill="#db2777"/>
+    <circle cx="120"  cy="60"  r="120" fill="#4f46e5"/>
+  </g>
+
+  <!-- Parallax dots -->
+  <g class="twinkle" opacity=".25">
+    <circle cx="150" cy="120" r="2" fill="#ffffff"/>
+    <circle cx="260" cy="80"  r="1.5" fill="#ffffff"/>
+    <circle cx="480" cy="160" r="1.8" fill="#ffffff"/>
+    <circle cx="840" cy="90"  r="2" fill="#ffffff"/>
+    <circle cx="1080" cy="150" r="1.6" fill="#ffffff"/>
+  </g>
+
+  <!-- Neon line (finance wave) -->
+  <g filter="url(#glow4)">
+    <path class="dash" stroke="url(#gPrimary)" stroke-width="3" fill="none"
+          d="M0,360 C120,320 240,380 360,350
+             C480,320 600,390 720,345
+             C840,320 960,375 1080,340
+             C1140,325 1200,335 1200,335"/>
+  </g>
+
+  <!-- Sliding sparklines group (seamless loop visual interest) -->
+  <g class="slide" opacity=".55" filter="url(#glow4)">
+    <path stroke="#22d3ee" stroke-width="2" fill="none"
+          d="M-300,420 C-180,390 -60,450 60,410 180,380 300,460 420,415 540,390 660,445 780,410 900,395 1020,430 1140,405 1200,395 1260,405 1260,405"/>
+    <path stroke="#a78bfa" stroke-width="2" fill="none"
+          d="M-300,455 C-210,430 -120,470 -30,445 90,415 210,485 330,450 450,430 570,470 690,445 810,430 930,465 1050,440 1110,430 1260,445 1260,445"/>
+  </g>
+
+  <!-- Shield (trust) -->
+  <g transform="translate(145,235) scale(1.1)" class="pulse">
+    <path d="M120 0 L220 40 L220 120 C220 180 170 225 120 250 C70 225 20 180 20 120 L20 40 Z"
+          fill="none" stroke="url(#gPrimary)" stroke-width="6" filter="url(#glow4)"/>
+    <path d="M75 110 L110 145 L175 80"
+          fill="none" stroke="#22c55e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"
+          filter="url(#glow4)"/>
+  </g>
+
+  <!-- Floating coins -->
+  <g class="float-a" transform="translate(980,260)">
+    <circle r="26" fill="url(#coin)"/>
+    <circle r="26" fill="url(#coin)" opacity=".35" filter="url(#glow8)"/>
+  </g>
+  <g class="float-b" transform="translate(890,320)">
+    <circle r="20" fill="url(#coin)"/>
+    <circle r="20" fill="url(#coin)" opacity=".35" filter="url(#glow8)"/>
+  </g>
+  <g class="float-c" transform="translate(1060,310)">
+    <circle r="16" fill="url(#coin)"/>
+    <circle r="16" fill="url(#coin)" opacity=".35" filter="url(#glow8)"/>
+  </g>
+</svg>

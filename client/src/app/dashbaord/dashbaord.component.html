@@ -1,89 +1,107 @@
-<!-- ===== Hero Section ===== -->
-<section class="hero-section d-flex align-items-center justify-content-center text-center">
-  <div class="overlay"></div>
-  <div class="container position-relative">
-    <h1 class="display-5 fw-bold">Welcome to Workshop Management</h1>
-    <p class="lead mt-3 mx-auto col-md-8">
-      Manage events, assign professionals, upload resources, and gather feedback — all in one place.
-    </p>
-    <div class="mt-4">
-      <a routerLink="/create-event" *ngIf="authService.isRole('institution')" class="btn btn-light btn-lg me-3">Create Event</a>
-      <a routerLink="/view-events" class="btn btn-outline-light btn-lg">View Events</a>
-    </div>
-  </div>
-</section>
+<div class="dashboard-container">
+  <!-- HEADER -->
+  <header class="dashboard-header">
+    <h1 class="page-title">Dashboard Overview</h1>
+    <p class="subtitle">Welcome back, {{ authService.getUsername || 'User' }}! Here's your latest summary.</p>
+  </header>
 
-<!-- ===== Dashboard Functionalities ===== -->
-<section class="dashboard-section py-5">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold text-gradient">Manage Everything Effortlessly</h2>
-      <p class="">
-        Quick access to all major events and workshops near you!
-      </p>
-    </div>
-
-    <div class="row g-4">
-      <div class="col-md-4" *ngIf="authService.isRole('institution') && authService.getLoginStatus()">
-        <div class="dash-card shadow-sm p-4 h-100">
-          <i class="fas fa-calendar-plus fa-2x mb-3 text-gradient"></i>
-          <h5 class="fw-bold mb-2">Create Event</h5>
-          <p class="mb-3">Plan new seminars or workshops with ease.</p>
-          <a routerLink="/create-event" class="btn primary-btn w-100">Open</a>
-        </div>
+  <!-- KPIs -->
+  <section *ngIf="authService.getRole() === 'institution'" class="stats-grid">
+    <div class="stat-card card reveal">
+      <div class="icon-wrapper events">
+        <i class="bi bi-calendar-event"></i>
       </div>
-
-      <div class="col-md-4" *ngIf="authService.hasAnyRole('institution', 'professional') && authService.getLoginStatus()">
-        <div class="dash-card shadow-sm p-4 h-100">
-          <i class="fas fa-database fa-2x mb-3 text-gradient"></i>
-          <h5 class="fw-bold mb-2">Add Resource</h5>
-          <p class="mb-3">Upload resources for participants.</p>
-          <a routerLink="/add-resource" class="btn primary-btn w-100">Open</a>
-        </div>
-      </div>
-
-      <div class="col-md-4" *ngIf="authService.isRole('institution') && authService.getLoginStatus()">
-        <div class="dash-card shadow-sm p-4 h-100">
-          <i class="fas fa-user-tie fa-2x mb-3 text-gradient"></i>
-          <h5 class="fw-bold mb-2">Assign Professional</h5>
-          <p class="mb-3">Allocate experts or trainers to events.</p>
-          <a routerLink="/assign-professional" class="btn primary-btn w-100">Open</a>
-        </div>
-      </div>
-
-      <div class="col-md-4" *ngIf="authService.hasAnyRole('institution', 'professional') && authService.getLoginStatus()">
-        <div class="dash-card shadow-sm p-4 h-100">
-          <i class="fas fa-sync-alt fa-2x mb-3 text-gradient"></i>
-          <h5 class="fw-bold mb-2">Update Status</h5>
-          <p class="mb-3">Monitor and modify event progress.</p>
-          <a routerLink="/update-event-status" class="btn primary-btn w-100">Open</a>
-        </div>
-      </div>
-
-      <div class="col-md-4"  *ngIf="!authService.isRole('institution') && authService.getLoginStatus()">
-        <div class="dash-card shadow-sm p-4 h-100">
-          <i class="fas fa-comment-dots fa-2x mb-3 text-gradient"></i>
-          <h5 class="fw-bold mb-2">Add Feedback</h5>
-          <p class="mb-3">Gather and review participant insights.</p>
-          <a routerLink="/add-feedback" class="btn primary-btn w-100">Open</a>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="dash-card shadow-sm p-4 h-100">
-          <i class="fas fa-list-alt fa-2x mb-3 text-gradient"></i>
-          <h5 class="fw-bold mb-2">View Events</h5>
-          <p class="mb-3">Access and manage all existing events.</p>
-          <a routerLink="/view-events" class="btn primary-btn w-100">Open</a>
-        </div>
+      <div class="stat-info">
+        <h3>Total Events</h3>
+        <p class="stat-value">{{ totalEvents }}</p>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ===== Footer ===== -->
-<footer class="footer text-center py-4">
-  <div class="container">
-    <p class="mb-0">&copy; 2025 Finovent. All Rights Reserved.</p>
-  </div>
-</footer>
+    <div class="stat-card card reveal">
+      <div class="icon-wrapper participants">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Participants</h3>
+        <p class="stat-value">{{ totalParticipants }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card card reveal">
+      <div class="icon-wrapper professionals">
+        <i class="bi bi-award-fill"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Professionals</h3>
+        <p class="stat-value">{{ totalProfessionals }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card card reveal">
+      <div class="icon-wrapper feedback">
+        <i class="bi bi-chat-dots-fill"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Feedback Received</h3>
+        <p class="stat-value">{{ totalFeedback }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="dashboard-main-content">
+    <!-- LEFT -->
+    <section class="quick-actions">
+      <h2 class="section-title">Quick Actions</h2>
+      <div class="action-cards">
+        <div *ngIf="authService.getRole() === 'institution'" class="card action-card reveal">
+          <i class="action-icon bi bi-pencil-square"></i>
+          <h4>Manage Events</h4>
+          <p>Create & describe new seminars and workshops here.</p>
+          <button routerLink="/create-event" class="btn-primary">Create Events</button>
+        </div>
+
+        <div *ngIf="authService.getRole() === 'institution'" class="card action-card reveal">
+          <i class="action-icon bi bi-cloud-upload-fill"></i>
+          <h4>Assign Professional</h4>
+          <p>Assign sessions to the professionals.</p>
+          <button routerLink="/assign-professional" class="btn-outline">Assign Events</button>
+        </div>
+
+      <div *ngIf="authService.getRole() === 'institution'" class="card action-card reveal">
+        <i class="action-icon bi bi-arrow-right-circle-fill"></i>
+        <h4>View All Events</h4>
+        <p>Browse all events and update the sessions or workshops.</p>
+        <button routerLink="/view-events" class="btn-primary">View Events</button>
+      </div>
+
+      <!-- <div class="card action-card reveal">
+          <i class="action-icon bi bi-arrow-right-circle-fill"></i>
+          <h4>Enroll Now</h4>
+          <p>Browse available events and join upcoming sessions.</p>
+          <button routerLink="/view-events" class="btn-primary">Explore Events</button>
+        </div>
+      </div> -->
+    </div>
+    </section>
+
+    <!-- RIGHT -->
+    <section class="recent-activity">
+      <h2 class="section-title">Recent Events</h2>
+      <div class="card list-surface">
+        <ul class="activity-list" *ngIf="recentEvents.length > 0; else noEvents">
+          <li *ngFor="let event of recentEvents" class="activity-item">
+            <div class="event-details">
+              <h4>{{ event.title }}</h4>
+              <span class="event-date">{{ event.date | date:'mediumDate' }}</span>
+            </div>
+            <a href="/events/{{event.id}}" class="btn-view-details">View <i class="bi bi-arrow-right-short"></i></a>
+          </li>
+        </ul>
+        <ng-template #noEvents>
+          <p class="empty-state">No recent events to display.</p>
+        </ng-template>
+      </div>
+    </section>
+  </main>
+</div>
